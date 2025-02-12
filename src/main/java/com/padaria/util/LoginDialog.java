@@ -37,7 +37,7 @@ public class LoginDialog {
      */
     public static boolean exibirLogin(Stage owner, String titulo, String userCorreto, String passCorreto) {
         try {
-            FXMLLoader loader = new FXMLLoader(LoginDialog.class.getResource("/views/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(LoginDialog.class.getResource("/views/login.fxml"));
             VBox root = loader.load();
 
             LoginDialog controller = loader.getController();

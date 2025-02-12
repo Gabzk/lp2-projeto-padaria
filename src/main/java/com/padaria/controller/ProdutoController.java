@@ -132,22 +132,15 @@ public class ProdutoController {
         if (confirmacao) {
             try {
                 Produto produto = new Produto();
-                try {
-                    produto.setId(Integer.parseInt(textId.getText()));
-                } catch (NumberFormatException e) {
-                    Toast.show(stage, "Erro ao converter ID para número");
-                    return;
-                }
+
+                produto.setId(Integer.parseInt(textId.getText()));
+
                 produto.setNome(textNome.getText());
                 produto.setCategoria(textCategoria.getText());
                 produto.setPreco(Double.parseDouble(textPreco.getText()));
                 produto.setQuantidade(Integer.parseInt(textQtd.getText()));
                 produto.setValidade(dataValidade.getValue());
                 DaoFactory.createProdutoDao().atualizar(produto);
-            } catch (NullPointerException e) {
-                Toast.show(stage, "Preencha todos os campos");
-            } catch (NumberFormatException e) {
-                Toast.show(stage, "Preencha os campos corretamente");
             } catch (Exception e) {
                 Toast.show(stage, "Erro ao atualizar o produto");
                 e.printStackTrace();

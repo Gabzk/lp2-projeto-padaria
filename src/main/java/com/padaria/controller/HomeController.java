@@ -16,6 +16,8 @@ import javafx.stage.Stage;
  */
 public class HomeController {
 
+
+
     @FXML
     private Button buttonAdmin; // Botão para acessar a tela de administração
     @FXML
