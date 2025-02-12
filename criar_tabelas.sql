@@ -11,17 +11,17 @@ DROP TABLE IF EXISTS produtos;
 CREATE TABLE produtos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    categoria VARCHAR(50),
-    preco DECIMAL(10,2) NOT NULL,
-    quantidade INT NOT NULL,
-    validade DATE
+    categoria VARCHAR(50) NOT NULL DEFAULT 'Outros',
+    preco DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    quantidade INT NOT NULL DEFAULT 0,
+    validade DATE NOT NULL DEFAULT '2099-12-31'
 );
 
 -- Criação da tabela de vendas
 CREATE TABLE vendas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    total DECIMAL(10,2) NOT NULL
+    data_hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    total DECIMAL(10,2) NOT NULL DEFAULT 0.00
 );
 
 -- Criação da tabela de venda_produtos
@@ -29,8 +29,8 @@ CREATE TABLE venda_produtos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     venda_id INT NOT NULL,
     produto_id INT NOT NULL,
-    quantidade INT NOT NULL,
-    subtotal DECIMAL(10,2) NOT NULL,
+    quantidade INT NOT NULL DEFAULT 1,
+    subtotal DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     FOREIGN KEY (venda_id) REFERENCES vendas(id) ON DELETE CASCADE,
     FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE
 );
@@ -39,7 +39,7 @@ CREATE TABLE venda_produtos (
 INSERT INTO produtos (nome, categoria, preco, quantidade, validade) VALUES
     ('Pão Francês', 'Pães', 0.50, 100, '2025-01-25'),
     ('Bolo de Chocolate', 'Doces', 15.00, 10, '2025-01-30'),
-    ('Café em Pó', 'Bebidas', 12.50, 20, NULL),
+    ('Café em Pó', 'Bebidas', 12.50, 20, '2025-03-30'),
     ('Leite Integral', 'Bebidas', 5.00, 50, '2025-02-15'),
     ('Torta de Frango', 'Salgados', 25.00, 5, '2025-01-28'),
     ('Pão Integral', 'Pães', 1.00, 80, '2025-01-27'),
@@ -59,10 +59,9 @@ INSERT INTO produtos (nome, categoria, preco, quantidade, validade) VALUES
     ('Pão de Milho', 'Pães', 0.70, 110, '2025-01-27'),
     ('Empada de Palmito', 'Salgados', 6.50, 50, '2025-02-12'),
     ('Cookie', 'Doces', 2.50, 120, '2025-03-05'),
-    -- Produtos de alto valor
     ('Bolo Nobre de Nozes', 'Doces', 150.00, 5, '2025-12-31'),
     ('Torta Premium de Frutos do Mar', 'Salgados', 250.00, 3, '2025-11-30'),
-    ('Café Gourmet', 'Bebidas', 50.00, 30, NULL),
+    ('Café Gourmet', 'Bebidas', 50.00, 30, '2025-12-31'),
     ('Pão Artesanal', 'Pães', 20.00, 40, '2025-10-15'),
     ('Cheesecake Especial', 'Doces', 80.00, 10, '2025-12-15'),
     ('Chocolate Belga', 'Doces', 100.00, 20, '2025-11-20');

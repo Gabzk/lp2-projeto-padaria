@@ -9,6 +9,7 @@ import com.padaria.util.Toast;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -17,43 +18,81 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe controladora para a tela de caixa.
+ * Gerencia a adição de produtos ao carrinho, a atualização do carrinho e a efetivação de vendas.
+ */
 public class CaixaController {
     @FXML
-    private FlowPane produtoFlowPane;
+    private FlowPane produtoFlowPane; // Painel para exibir os produtos disponíveis
     @FXML
-    private FlowPane carrinhoFlowPane;
+    private FlowPane carrinhoFlowPane; // Painel para exibir os produtos no carrinho
     @FXML
-    private Label totalLabel;
+    private Label totalLabel; // Rótulo para o texto "Total"
     @FXML
-    private ScrollPane scrollPane;
+    private Label totalValorLabel; // Rótulo para exibir o valor total da compra
     @FXML
-    private Button buttonEfetuarVenda;
+    private ScrollPane scrollPane; // Painel de rolagem para os produtos no carrinho
+    @FXML
+    private Button buttonEfetuarVenda; // Botão para efetuar a venda
 
-    private final List<Produto> carrinho = new ArrayList<>();
+    private final List<Produto> carrinho = new ArrayList<>(); // Lista de produtos no carrinho
 
-    private static CaixaController instance;
-    private Stage stage;
+    private static CaixaController instance; // Instância única do controlador
+    private Stage stage; // Referência para o palco principal
 
+    /**
+     * Construtor da classe CaixaController.
+     * Define a instância única do controlador.
+     */
     public CaixaController() {
         instance = this;
     }
 
+    /**
+     * Inicializa a classe controladora.
+     * Adiciona os produtos ao painel de produtos e define a referência do palco.
+     */
     @FXML
     public void initialize() {
         adicionarCardProdutos();
         Platform.runLater(() -> stage = (Stage) produtoFlowPane.getScene().getWindow());
     }
 
+    /**
+     * Retorna a instância única do controlador.
+     * @return Instância do CaixaController.
+     */
     public static CaixaController getInstance() {
         return instance;
     }
 
+    /**
+     * Lida com a ação de voltar ao menu principal.
+     * Carrega a visualização inicial e define como a cena do palco.
+     */
+    @FXML
+    public void handleVoltarMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/home.fxml"));
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Decrementa a quantidade de um produto no carrinho.
+     * Remove o produto do carrinho se a quantidade for zero.
+     * @param produto Produto a ser decrementado.
+     */
     public void decrementarItem(Produto produto) {
         for (Produto p : carrinho) {
-            if (p.getId() == produto.getId()) {
+            if (p.equals(produto)) {
                 int qtdAtual = p.getQuantidade();
                 qtdAtual--;
                 if (qtdAtual == 0) {
@@ -67,18 +106,42 @@ public class CaixaController {
         }
     }
 
-    public void incrementarItem(Produto produto) {
+    /**
+     * Incrementa a quantidade de um produto no carrinho.
+     * Verifica se a quantidade não excede o estoque disponível.
+     * @param produto Produto a ser incrementado.
+     * @return true se o produto foi incrementado, false se a quantidade máxima foi atingida.
+     */
+    public Boolean incrementarItem(Produto produto) {
         for (Produto p : carrinho) {
-            if (p.getId() == produto.getId()) {
+            if (p.equals(produto)) {
                 int qtdAtual = p.getQuantidade();
                 qtdAtual++;
+                if (qtdAtual > DaoFactory.createProdutoDao().buscarPorId(produto.getId()).getQuantidade()) {
+                    Toast.show(stage, "Quantidade máxima do estoque atingida", 1000, Toast.ToastPosition.TOP_CENTER, Toast.ToastType.ERROR);
+                    return false;
+                }
                 p.setQuantidade(qtdAtual);
                 atualizarCarrinho();
-                return;
+                return true;
             }
         }
+
+        Produto produtoNovo = new Produto();
+        produtoNovo.setQuantidade(1);
+        produtoNovo.setId(produto.getId());
+        produtoNovo.setNome(produto.getNome());
+        produtoNovo.setPreco(produto.getPreco());
+
+        carrinho.add(produtoNovo);
+        atualizarCarrinho();
+        return true;
     }
 
+    /**
+     * Remove um produto do carrinho.
+     * @param produto Produto a ser removido.
+     */
     public void removerItem(Produto produto) {
         for (Produto p : carrinho) {
             if (p.getId() == produto.getId()) {
@@ -89,25 +152,10 @@ public class CaixaController {
         }
     }
 
-    public void adicionarProduto(Produto produto) {
-        for (Produto p : carrinho) {
-            if (p.getId() == produto.getId()) {
-                int qtdAtual = p.getQuantidade();
-                qtdAtual++;
-                p.setQuantidade(qtdAtual);
-                atualizarCarrinho();
-
-                Toast.show(stage, "Produto adicionado ao carrinho", 1000, Toast.ToastPosition.TOP_CENTER, Toast.ToastType.INFO);
-                return;
-
-            }
-        }
-
-        carrinho.add(produto);
-        Toast.show(stage, "Produto adicionado ao carrinho", 1000, Toast.ToastPosition.TOP_CENTER, Toast.ToastType.INFO);
-        atualizarCarrinho();
-    }
-
+    /**
+     * Atualiza a exibição dos produtos no carrinho.
+     * Recalcula o valor total da compra.
+     */
     private void atualizarCarrinho() {
         carrinhoFlowPane.getChildren().clear();
 
@@ -131,13 +179,17 @@ public class CaixaController {
             }
         }
 
-        totalLabel.setText(String.format("Total: R$ %.2f", total));
+        totalValorLabel.setText(String.format("R$ %.2f", total));
 
         for (Produto p: carrinho) {
             System.out.println(p.getNome()+" "+ p.getQuantidade());
         }
     }
 
+    /**
+     * Adiciona os produtos ao painel de produtos.
+     * Carrega a visualização de cada produto e define como conteúdo do painel.
+     */
     private void adicionarCardProdutos() {
         produtoFlowPane.getChildren().clear();
         List<Produto> produtos = DaoFactory.createProdutoDao().buscarTodos();
@@ -159,6 +211,11 @@ public class CaixaController {
         }
     }
 
+    /**
+     * Efetua a venda dos produtos no carrinho.
+     * Verifica se o carrinho está vazio e solicita confirmação do usuário.
+     * Registra a venda no banco de dados e limpa o carrinho.
+     */
     @FXML
     private void efetuarVenda() {
         if (carrinho.isEmpty()) {
@@ -197,6 +254,10 @@ public class CaixaController {
 
     }
 
+    /**
+     * Limpa o carrinho de compras.
+     * Remove todos os produtos do carrinho e atualiza a exibição.
+     */
     private void limparCarrinho() {
         carrinho.clear();
         atualizarCarrinho();

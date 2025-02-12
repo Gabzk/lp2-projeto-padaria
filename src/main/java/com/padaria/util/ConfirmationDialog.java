@@ -15,45 +15,53 @@ import javafx.stage.StageStyle;
 
 public class ConfirmationDialog {
 
-    private static boolean result = false;
-
-    // Método para exibir a caixa de diálogo de confirmação
+    /**
+     * Exibe o diálogo de confirmação de forma síncrona.
+     * O método bloqueia até que o usuário clique em "Sim" ou "Não".
+     *
+     * @param owner   o Stage proprietário
+     * @param message a mensagem a ser exibida
+     * @return true se o usuário confirmar; false caso contrário.
+     */
     public static boolean show(Stage owner, String message) {
-        Platform.runLater(() -> createDialog(owner, message));
-        return result;
-    }
+        // Usamos um array para armazenar a resposta, pois precisamos de uma variável final/mutável
+        final boolean[] result = new boolean[1];
 
-    // Método privado para criar e exibir a caixa de diálogo
-    private static void createDialog(Stage owner, String message) {
+        // Cria o Stage do diálogo
         Stage stage = new Stage();
-        stage.initOwner(owner); // Define o Stage principal como dono
-        stage.initModality(Modality.APPLICATION_MODAL); // Bloqueia interação com a janela principal
-        stage.initStyle(StageStyle.UTILITY); // Estilo mais adequado para o tipo de janela
-        stage.setResizable(false); // Impede o redimensionamento da janela
+        stage.initOwner(owner);
+        stage.initModality(Modality.APPLICATION_MODAL); // Garante que a janela seja modal
+        stage.initStyle(StageStyle.UTILITY);
+        stage.setResizable(false);
 
-        // Configuração do Label (mensagem da caixa de diálogo)
+        // Impede que o usuário feche a janela pelo botão de fechar (X)
+        stage.setOnCloseRequest(e -> e.consume());
+
+        // Configuração do Label com a mensagem
         Label label = new Label(message);
-        label.setStyle("-fx-font-size: 16px; -fx-text-fill: #333; -fx-wrap-text: true;");
-        label.setMaxWidth(350); // Limita a largura da mensagem
+        label.setStyle("-fx-font-size: 16px; -fx-text-fill: #333;");
+        label.setWrapText(true);
+        label.setMaxWidth(350);
 
-        // Botões de confirmação (Sim e Não)
+        // Botão "Sim"
         Button btnYes = new Button("Sim");
         btnYes.setStyle("-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 16px;");
-        btnYes.setMinWidth(80); // Aumenta o tamanho do botão
+        btnYes.setMinWidth(80);
         btnYes.setOnAction(e -> {
-            result = true;
+            result[0] = true;
             stage.close();
         });
 
+        // Botão "Não"
         Button btnNo = new Button("Não");
         btnNo.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 16px;");
-        btnNo.setMinWidth(80); // Aumenta o tamanho do botão
+        btnNo.setMinWidth(80);
         btnNo.setOnAction(e -> {
-            result = false;
+            result[0] = false;
             stage.close();
         });
 
-        // Layout dos botões
+        // Layout para os botões
         HBox buttonBox = new HBox(15, btnYes, btnNo);
         buttonBox.setAlignment(Pos.CENTER);
 
@@ -67,32 +75,26 @@ public class ConfirmationDialog {
         StackPane container = new StackPane(root);
         container.setStyle("-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 1);");
 
-        // Configuração da cena
+        // Configura a cena
         Scene scene = new Scene(container);
-        scene.setFill(null); // Cena transparente
-
         stage.setScene(scene);
         stage.sizeToScene();
 
-        // Chama a centralização após o layout ser gerado
-        Platform.runLater(() -> positionStage(stage, owner));
+        // Posicionamento adiado para centralizar o diálogo em relação ao Stage proprietário
+        Platform.runLater(() -> {
+            double ownerX = owner.getX();
+            double ownerY = owner.getY();
+            double ownerWidth = owner.getWidth();
+            double ownerHeight = owner.getHeight();
+            double stageWidth = stage.getWidth();
+            double stageHeight = stage.getHeight();
+            stage.setX(ownerX + (ownerWidth - stageWidth) / 2);
+            stage.setY(ownerY + (ownerHeight - stageHeight) / 2);
+        });
 
-        stage.showAndWait(); // Exibe a caixa de diálogo e aguarda uma resposta
-    }
+        // Exibe o diálogo de forma síncrona (bloqueia até o fechamento)
+        stage.showAndWait();
 
-    // Método para centralizar corretamente o Stage da caixa de diálogo
-    private static void positionStage(Stage stage, Stage owner) {
-        double ownerX = owner.getX();
-        double ownerY = owner.getY();
-        double ownerWidth = owner.getWidth();
-        double ownerHeight = owner.getHeight();
-
-        // Obtém o tamanho da caixa de diálogo
-        double stageWidth = stage.getWidth();
-        double stageHeight = stage.getHeight();
-
-        // Centraliza o Stage da caixa de diálogo em relação ao Stage principal
-        stage.setX(ownerX + (ownerWidth - stageWidth) / 2);
-        stage.setY(ownerY + (ownerHeight - stageHeight) / 2);
+        return result[0];
     }
 }

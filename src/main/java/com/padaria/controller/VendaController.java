@@ -4,6 +4,8 @@ import com.padaria.model.dao.DaoFactory;
 import com.padaria.model.entities.Venda;
 import com.padaria.model.entities.VendaItem;
 import com.padaria.model.entities.VendaProdutos;
+import com.padaria.util.PrecoTableCell;
+import com.padaria.util.PrecoTreeTableCell;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -13,16 +15,24 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Classe controladora para a tela de vendas.
+ * Gerencia a exibição, filtragem e estatísticas das vendas.
+ */
 public class VendaController {
 
-    @FXML private TreeTableView<VendaItem> tabelaVendas;
-    @FXML private TreeTableColumn<VendaItem, Number> colunaId, colunaTotal, colunaIdProduto, colunaPrecoProduto, colunaQtd, colunaSubtotal;
-    @FXML private TreeTableColumn<VendaItem, String> colunaNomeProduto, colunaCategoriaProduto;
-    @FXML private TreeTableColumn<VendaItem, LocalDateTime> colunaData;
-    @FXML private RadioButton radioButtonDia, radioButtonMes, radioButtonPeriodo;
-    @FXML private DatePicker datePickerInicio, datePickerFinal;
-    @FXML private Label labelVendasTotais, labelValorMedio;
+    @FXML private TreeTableView<VendaItem> tabelaVendas; // Tabela para exibir as vendas
+    @FXML private TreeTableColumn<VendaItem, String> colunaId, colunaTotal, colunaIdProduto, colunaPrecoProduto, colunaQtd, colunaSubtotal; // Colunas da tabela de vendas
+    @FXML private TreeTableColumn<VendaItem, String> colunaNomeProduto, colunaCategoriaProduto; // Colunas para exibir detalhes dos produtos vendidos
+    @FXML private TreeTableColumn<VendaItem, String> colunaData; // Coluna para exibir a data da venda
+    @FXML private RadioButton radioButtonDia, radioButtonMes, radioButtonPeriodo; // Botões de rádio para selecionar o período de filtragem
+    @FXML private DatePicker datePickerInicio, datePickerFinal; // Seletores de data para o período de filtragem
+    @FXML private Label labelVendasTotais, labelValorMedio; // Rótulos para exibir estatísticas das vendas
 
+    /**
+     * Inicializa a classe controladora.
+     * Configura as colunas da tabela e atualiza as vendas.
+     */
     @FXML
     public void initialize() {
         radioButtonMes.setSelected(true);
@@ -30,6 +40,10 @@ public class VendaController {
         atualizarVendas();
     }
 
+    /**
+     * Atualiza a lista de vendas exibida na tabela.
+     * Filtra as vendas e atualiza as estatísticas.
+     */
     private void atualizarVendas() {
         List<Venda> vendas = DaoFactory.createVendaDao().listaVendas();
         List<Venda> vendasFiltradas = filtrarVendas(vendas);
@@ -37,6 +51,11 @@ public class VendaController {
         carregarVendas(vendasFiltradas);
     }
 
+    /**
+     * Filtra a lista de vendas com base no período selecionado.
+     * @param vendas Lista de vendas a ser filtrada.
+     * @return Lista de vendas filtrada.
+     */
     private List<Venda> filtrarVendas(List<Venda> vendas) {
         LocalDate hoje = LocalDate.now();
 
@@ -52,6 +71,10 @@ public class VendaController {
         return vendas;
     }
 
+    /**
+     * Atualiza as estatísticas das vendas exibidas.
+     * @param vendas Lista de vendas para calcular as estatísticas.
+     */
     private void atualizarEstatisticas(List<Venda> vendas) {
         double total = vendas.stream().mapToDouble(Venda::getValorTotal).sum();
         double media = vendas.isEmpty() ? 0.0 : total / vendas.size();
@@ -60,6 +83,10 @@ public class VendaController {
         labelValorMedio.setText(String.format("R$ %.2f", media));
     }
 
+    /**
+     * Lida com a seleção dos botões de rádio.
+     * Habilita ou desabilita os seletores de data com base na seleção.
+     */
     @FXML
     private void handleRadioButton() {
         boolean periodoSelecionado = radioButtonPeriodo.isSelected();
@@ -70,6 +97,10 @@ public class VendaController {
         }
     }
 
+    /**
+     * Lida com a ação do botão aplicar.
+     * Atualiza a lista de vendas com base no período selecionado.
+     */
     @FXML
     private void handleButtonAplicar() {
         if (radioButtonPeriodo.isSelected() && datePickerInicio.getValue() != null && datePickerFinal.getValue() != null) {
@@ -77,6 +108,10 @@ public class VendaController {
         }
     }
 
+    /**
+     * Carrega a lista de vendas na tabela.
+     * @param vendas Lista de vendas a ser exibida.
+     */
     private void carregarVendas(List<Venda> vendas) {
         TreeItem<VendaItem> root = new TreeItem<>(new VendaItem(0, LocalDateTime.now(), 0.0));
         tabelaVendas.setRoot(root);
@@ -96,6 +131,9 @@ public class VendaController {
         }
     }
 
+    /**
+     * Configura as colunas da tabela de vendas.
+     */
     private void configurarColunas() {
         colunaId.setCellValueFactory(param -> param.getValue().getValue().id);
         colunaTotal.setCellValueFactory(param -> param.getValue().getValue().total);
@@ -105,14 +143,9 @@ public class VendaController {
         colunaPrecoProduto.setCellValueFactory(param -> param.getValue().getValue().precoProduto);
         colunaQtd.setCellValueFactory(param -> param.getValue().getValue().qtd);
         colunaSubtotal.setCellValueFactory(param -> param.getValue().getValue().subtotal);
-
         colunaData.setCellValueFactory(param -> param.getValue().getValue().data);
-        colunaData.setCellFactory(column -> new TreeTableCell<>() {
-            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-            @Override protected void updateItem(LocalDateTime item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.format(formatter));
-            }
-        });
+        colunaPrecoProduto.setCellFactory(PrecoTreeTableCell.forTreeTableColumn());
+        colunaTotal.setCellFactory(PrecoTreeTableCell.forTreeTableColumn());
+        colunaSubtotal.setCellFactory(PrecoTreeTableCell.forTreeTableColumn());
     }
 }

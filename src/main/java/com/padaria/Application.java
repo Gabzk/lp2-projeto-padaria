@@ -6,7 +6,16 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * Classe principal da aplicação que inicializa a interface gráfica.
+ */
 public class Application extends javafx.application.Application {
+
+    /**
+     * Método de inicialização da aplicação.
+     *
+     * @param primaryStage o palco principal da aplicação
+     */
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -21,6 +30,11 @@ public class Application extends javafx.application.Application {
         }
     }
 
+    /**
+     * Método principal que inicia a aplicação.
+     *
+     * @param args argumentos da linha de comando
+     */
     public static void main(String[] args) {
         launch(args);
     }

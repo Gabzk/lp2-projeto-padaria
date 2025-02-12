@@ -9,14 +9,25 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementação JDBC do VendaDao.
+ * Gerencia operações de banco de dados para a entidade Venda.
+ */
 public class VendaDaoJDBC implements VendaDao {
     private final Connection conn;
 
+    /**
+     * Construtor que inicializa a conexão com o banco de dados.
+     * @param conn Conexão com o banco de dados.
+     */
     public VendaDaoJDBC(Connection conn) {
         this.conn = conn;
     }
 
-
+    /**
+     * Lista todas as vendas do banco de dados.
+     * @return Lista de vendas.
+     */
     @Override
     public List<Venda> listaVendas() {
         PreparedStatement stVendas = null;
@@ -72,7 +83,10 @@ public class VendaDaoJDBC implements VendaDao {
         return null;
     }
 
-
+    /**
+     * Insere uma nova venda no banco de dados.
+     * @param venda Venda a ser inserida.
+     */
     @Override
     public void inserir(Venda venda) {
         PreparedStatement stVenda = null;
@@ -149,8 +163,4 @@ public class VendaDaoJDBC implements VendaDao {
             DB.closeStatement(stEstoque);
         }
     }
-
-
-
-
 }

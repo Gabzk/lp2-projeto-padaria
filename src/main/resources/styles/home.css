@@ -3,26 +3,31 @@
     src: url("/fonts/Ultra-Regular.ttf");
 }
 
+/* Estilo base para labels */
 .label {
-    -fx-text-fill: #45171d;
+    -fx-text-fill: #45171d; /* Marrom profundo para bom contraste */
     -fx-font-family: "Ultra";
 }
 
+/* Fundo do painel principal */
 #anchor-pane {
-    -fx-background-color: #fecea8;
+    -fx-background-color: #fecea8; /* Tom pêssego suave e acolhedor */
 }
 
+/* Botões modernos e elegantes */
 .button {
     -fx-font-size: 18px;
-    -fx-background-color: #e84a5f;
+    -fx-background-color: #e84a5f; /* Cor de destaque */
     -fx-text-fill: white;
     -fx-background-radius: 25;
-    -fx-padding: 10;
+    -fx-padding: 10 20; /* Maior espaçamento horizontal para um visual mais clean */
     -fx-font-family: "Ultra";
+    /* Sombra sutil para adicionar profundidade */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0.5, 0, 2);
+    -fx-cursor: hand; /* Cursor indicando que o botão é clicável */
 }
 
+/* Efeito de hover para botões */
 .button:hover {
     -fx-background-color: #f15a5f;
 }
-
-
