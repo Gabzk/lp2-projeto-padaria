@@ -1,0 +1,37 @@
+# IDEs e ambientes de desenvolvimento
+.idea/
+*.iml
+*.iws
+*.swp
+*.swo
+*.bak
+.vscode/
+*.code-workspace
+/.classpath
+/.project
+/.settings/
+bin/
+target/
+out/
+
+# Arquivos do Maven
+.mvn/
+mvnw
+mvnw.cmd
+dependency-reduced-pom.xml
+
+# Logs e arquivos temporários
+*.log
+hs_err_pid*
+*.pid
+*.seed
+*.orig
+*.rej
+
+# Configurações locais e credenciais
+.env
+*.properties
+*.db
+/db/
+.DS_Store
+Thumbs.db
