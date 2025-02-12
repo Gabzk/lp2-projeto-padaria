@@ -1,0 +1,28 @@
+@font-face {
+    font-family: "Ultra";
+    src: url("/fonts/Ultra-Regular.ttf");
+}
+
+.label {
+    -fx-text-fill: #45171d;
+    -fx-font-family: "Ultra";
+}
+
+#anchor-pane {
+    -fx-background-color: #fecea8;
+}
+
+.button {
+    -fx-font-size: 18px;
+    -fx-background-color: #e84a5f;
+    -fx-text-fill: white;
+    -fx-background-radius: 25;
+    -fx-padding: 10;
+    -fx-font-family: "Ultra";
+}
+
+.button:hover {
+    -fx-background-color: #f15a5f;
+}
+
+

@@ -1,0 +1,146 @@
+/* styles.css */
+
+/* Estilo global da aplicação */
+
+@font-face {
+    font-family: "Nunito";
+    src: url("/fonts/Nunito-Regular.ttf");
+}
+
+.root {
+    -fx-font-family: 'Nunito', sans-serif;
+}
+
+/* ---------- Componentes Gerais ---------- */
+
+/* Tab Pane */
+.tab-pane {
+    -fx-background-color: #f0f0f0;
+}
+
+/* Split Pane */
+.split-pane {
+    -fx-background-color: #ffffff;
+}
+
+/* Grid Pane */
+.grid-pane {
+    -fx-padding: 20;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}
+
+/* Labels */
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+}
+
+/* Text Fields */
+.text-field {
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+}
+
+/* Buttons */
+.button {
+    -fx-font-size: 14px;
+    -fx-background-color: #FF8C00;  /* Tom quente para os botões */
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 10 20;
+}
+
+.button:hover {
+    -fx-background-color: #FF7F50;  /* Cor um pouco mais clara ao passar o mouse */
+}
+
+/* ---------- Tabelas e Listas ---------- */
+
+/* Estilização unificada para TableView e TreeTableView */
+.table-view, .tree-table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+}
+
+/* Cabeçalho unificado para TableView e TreeTableView */
+.table-view .column-header,
+.tree-table-view .column-header,
+.table-view .column-header-background,
+.tree-table-view .column-header-background {
+    -fx-background-color: #FF8C00;  /* Mesmo tom dos botões */
+    -fx-background-radius: 5 5 0 0;
+    -fx-padding: 8;
+    -fx-alignment: center;
+}
+
+/* Rótulos (labels) dos cabeçalhos unificados */
+.table-view .column-header .label,
+.tree-table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+}
+
+/* Células unificadas para TableView e TreeTableView */
+.table-view .cell,
+.tree-table-view .cell {
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+    -fx-alignment: center;
+}
+
+/* Estilo das linhas selecionadas (unificado) */
+.table-view .table-row-cell:selected,
+.tree-table-view .tree-table-row-cell:selected {
+    -fx-background-color: #FF7F50;
+}
+
+/* Efeito hover nas linhas (unificado) */
+.table-view .table-row-cell:hover,
+.tree-table-view .tree-table-row-cell:hover {
+    -fx-background-color: #ffe5d0;
+}
+
+/* ---------- Outros Componentes ---------- */
+
+/* List View */
+.list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+}
+
+/* Combo Box */
+.combo-box {
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+}
+
+/* Menu Bar */
+.menu-bar {
+    -fx-background-color: #FF8C00;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+/* Menu Items */
+.menu-item {
+    -fx-font-size: 14px;
+}
+
+/* Dialog Pane */
+.dialog-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 20;
+}

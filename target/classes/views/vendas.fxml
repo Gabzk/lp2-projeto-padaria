@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="1280.0" spacing="10" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.padaria.controller.VendaController">
+   <children>
+      <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="VENDAS" />
+      <HBox alignment="CENTER" spacing="8.0">
+         <children>
+            <RadioButton fx:id="radioButtonDia" mnemonicParsing="false" onAction="#handleRadioButton" text="1 dia">
+               <toggleGroup>
+                  <ToggleGroup fx:id="periodo" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radioButtonMes" mnemonicParsing="false" onAction="#handleRadioButton" text="30 dias" toggleGroup="$periodo" />
+            <RadioButton fx:id="radioButtonPeriodo" mnemonicParsing="false" onAction="#handleRadioButton" text="Período" toggleGroup="$periodo" />
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="30.0" layoutY="75.0" spacing="16.0">
+         <children>
+            <DatePicker fx:id="datePickerInicio" disable="true" promptText="De" />
+            <DatePicker fx:id="datePickerFinal" disable="true" layoutX="383.0" layoutY="10.0" promptText="Até" />
+            <Button fx:id="buttonAplicar" mnemonicParsing="false" onAction="#handleButtonAplicar" text="Aplicar">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" spacing="20">
+         <children>
+            <Label style="-fx-font-size: 16px;" text="Vendas Totais:" />
+            <Label fx:id="labelVendasTotais" layoutX="333.0" layoutY="10.0" style="-fx-font-size: 16px;" text="R$ 0,00" />
+            <Label style="-fx-font-size: 16px;" text="Valor Médio da Compra:" />
+            <Label fx:id="labelValorMedio" layoutX="491.0" layoutY="10.0" style="-fx-font-size: 16px;" text="R$ 0,00" />
+         </children>
+      </HBox>
+      <TreeTableView fx:id="tabelaVendas" prefHeight="530.0" prefWidth="1240.0">
+        <columns>
+          <TreeTableColumn fx:id="colunaId" prefWidth="46.0" text="ID" />
+          <TreeTableColumn fx:id="colunaData" prefWidth="143.0" text="DATA" />
+            <TreeTableColumn fx:id="colunaIdProduto" prefWidth="106.0" text="ID PRODUTO" />
+            <TreeTableColumn fx:id="colunaNomeProduto" prefWidth="170.0" text="NOME" />
+            <TreeTableColumn fx:id="colunaCategoriaProduto" prefWidth="152.0" text="CATEGORIA" />
+            <TreeTableColumn fx:id="colunaPrecoProduto" prefWidth="83.0" text="PRECO" />
+            <TreeTableColumn fx:id="colunaQtd" prefWidth="75.0" text="QTD" />
+            <TreeTableColumn fx:id="colunaSubtotal" prefWidth="75.0" text="SUBTOTAL" />
+            <TreeTableColumn fx:id="colunaTotal" prefWidth="109.0" text="TOTAL" />
+        </columns>
+         <columnResizePolicy>
+            <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TreeTableView>
+   </children>
+</VBox>

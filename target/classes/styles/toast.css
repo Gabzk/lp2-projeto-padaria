@@ -1,0 +1,26 @@
+.toast-root {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 1);
+}
+
+.toast-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+}
+
+.success {
+    -fx-background-color: #28a745;
+}
+
+.error {
+    -fx-background-color: #dc3545;
+}
+
+.warning {
+    -fx-background-color: #ffc107;
+    -fx-text-fill: #343a40;
+}
+
+.info {
+    -fx-background-color: #17a2b8;
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/application.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.padaria.controller.ApplicationController">
+    <children>
+      <VBox>
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="Menu">
+                  <items>
+                    <MenuItem fx:id="voltarMenu" mnemonicParsing="false" onAction="#handleVoltarMenu" text="Voltar para menu" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+              <TabPane fx:id="tabPane" prefHeight="720" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+                  <tabs>
+                      <Tab fx:id="tabProdutos" text="Produtos" xmlns:fx="http://javafx.com/fxml" />
+                      <Tab fx:id="tabVendas" text="Vendas" />
+                  </tabs>
+      
+              </TabPane>
+         </children>
+      </VBox>
+    </children>
+</AnchorPane>

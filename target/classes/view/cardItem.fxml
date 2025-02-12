@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="125.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.padaria.controller.CardItemController">
+   <children>
+      <VBox alignment="CENTER" layoutX="11.0" layoutY="11.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="itemNome" layoutX="10.0" layoutY="69.0" text="ProductName">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+              <Label fx:id="itemPreco" text="Unit Price: $0.00">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+         </padding>
+      </VBox>
+      <HBox alignment="CENTER" layoutX="226.0" layoutY="11.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="imageDecremento" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleDecrementarButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/minus-small.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+              <Label fx:id="itemQuantidade" text="1">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imageIncremento" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleIncrementarButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/plus-small.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+              <Label fx:id="totalPreco" text="Total:  $0.00">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imageRemover" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleRemoverButton" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/delete.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+         <padding>
+            <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>

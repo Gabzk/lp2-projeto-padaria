@@ -1,0 +1,32 @@
+/* cardItem.css */
+
+.item-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.price-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666666;
+}
+
+.quantity-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.subtotal-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.image-view {
+    -fx-opacity: 0.9;
+}
+
+.image-view:hover {
+    -fx-opacity: 1.0;
+}
