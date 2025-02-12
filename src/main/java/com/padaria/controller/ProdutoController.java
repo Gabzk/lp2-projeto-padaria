@@ -70,6 +70,7 @@ public class ProdutoController {
     /**
      * Lida com o clique do mouse na tabela de produtos.
      * Carrega os detalhes do produto selecionado nos campos de texto.
+     *
      * @param event Evento de clique do mouse.
      */
     @FXML
@@ -84,6 +85,7 @@ public class ProdutoController {
 
     /**
      * Carrega os detalhes do produto nos campos de texto.
+     *
      * @param produto Produto a ser exibido nos campos de texto.
      */
     private void carregarDetalhesProduto(Produto produto) {
@@ -104,7 +106,10 @@ public class ProdutoController {
      */
     private void carregarTabela() {
         try {
-            ObservableList<Produto> observableList = FXCollections.observableList(DaoFactory.createProdutoDao().buscarTodos());
+            ObservableList<Produto> observableList = FXCollections.observableArrayList(
+                    DaoFactory.createProdutoDao().buscarTodos()
+            );
+
             colunaId.setCellValueFactory(new PropertyValueFactory<>("id"));
             colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
             colunaCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
@@ -112,15 +117,20 @@ public class ProdutoController {
             colunaQtd.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
             colunaValidade.setCellValueFactory(new PropertyValueFactory<>("validade"));
             colunaStatus.setCellValueFactory(new PropertyValueFactory<>("validade"));
+
             tabelaProdutos.setItems(observableList);
+
             colunaStatus.setCellFactory(StatusTableCell.forTableColumn());
             colunaPreco.setCellFactory(PrecoTableCell.forTableColumn());
+
+            tabelaProdutos.refresh(); // Força atualização visual
 
         } catch (Exception e) {
             System.out.println("Erro ao carregar a tabela de produtos:");
             e.printStackTrace();
         }
     }
+
 
     /**
      * Atualiza um produto existente no banco de dados.
@@ -130,11 +140,11 @@ public class ProdutoController {
     private void atualizarProduto() {
         boolean confirmacao = ConfirmationDialog.show(stage, "Tem certeza que deseja atualizar o produto?");
         if (confirmacao) {
+
             try {
                 Produto produto = new Produto();
 
                 produto.setId(Integer.parseInt(textId.getText()));
-
                 produto.setNome(textNome.getText());
                 produto.setCategoria(textCategoria.getText());
                 produto.setPreco(Double.parseDouble(textPreco.getText()));
@@ -143,12 +153,11 @@ public class ProdutoController {
                 DaoFactory.createProdutoDao().atualizar(produto);
             } catch (Exception e) {
                 Toast.show(stage, "Erro ao atualizar o produto");
-                e.printStackTrace();
-            } finally {
-                carregarTabela();
             }
+            carregarTabela();
         }
     }
+
 
     /**
      * Adiciona um novo produto ao banco de dados.
