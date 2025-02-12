@@ -38,6 +38,10 @@
     -fx-padding: 10;
 }
 
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #5D4037; /* Texto: marrom escuro */
+    }
 
 
 .label#carrinhoLabel {
@@ -84,8 +88,10 @@
 }
 
 /* ---------- Produtos ---------- */
+
 .anchor-pane {
     -fx-padding: 10;
+
 }
 
 /* ScrollPane para os produtos */
@@ -119,6 +125,3 @@
 .menu-item {
     -fx-font-size: 14px !important;
 }
-
-
-
